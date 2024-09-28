@@ -1,9 +1,15 @@
 import type { APIRoute } from "astro";
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 
-export const GET: APIRoute = async () => {  
-    const posts = await getCollection('blog')
+export const prerender = false 
+
+export const GET: APIRoute = async ({params, request}) => {  
+    const posts:CollectionEntry<'blog'>[] = await getCollection('blog')
     const data = posts.map(post => post.data)
+
+    console.log({params})
+    console.log(request)
+
 
     return new Response(JSON.stringify(data), {
             status: 201,
