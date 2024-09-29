@@ -5,7 +5,7 @@ import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ request }) => {
   const resp = initResponseAction();
 
   try {
