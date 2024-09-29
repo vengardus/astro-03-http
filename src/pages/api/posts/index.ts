@@ -12,7 +12,8 @@ export const GET: APIRoute = async ({ request }) => {
     // valida si vienen parametros
     const url = new URL(request.url);
     const isParamas = url.searchParams.size ? true : false;
-    if (isParamas && !url.searchParams.get("slug")) {
+    const slug = url.searchParams.get("slug");
+    if (isParamas && !slug) {
       resp.errorCode = 404;
       throw new Error("Parámetro no recibido");
     }
@@ -26,8 +27,7 @@ export const GET: APIRoute = async ({ request }) => {
         break;
 
       case true: // getBySlug
-        const slug = url.searchParams.get("slug");
-        const post = await getEntry("blog", slug);
+        const post = await getEntry("blog", slug!);
         if (!post) {
           resp.errorCode = 404;
           throw new Error("Slug no encontrado");
