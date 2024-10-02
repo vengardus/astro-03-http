@@ -1,7 +1,7 @@
 import { getActionError } from "@/utils/get-action-error";
 import { initResponseAction } from "@/utils/init-response";
 import type { APIRoute } from "astro";
-import { clients, db } from "astro:db";
+import { Clients, db } from "astro:db";
 
 export const prerender = false;
 
@@ -9,7 +9,7 @@ export const GET: APIRoute = async ({ request }) => {
   const resp = initResponseAction();
 
   try {
-    const aClients = await db.select().from(clients);
+    const aClients = await db.select().from(Clients);
     resp.success = true;
     resp.data = aClients;
   } catch (error) {
@@ -32,7 +32,7 @@ try {
     if (!body || !body.name || !body.age || !body.isActive)
       throw new Error("Error en datos");
 
-    const respClient = await db.insert(clients).values({
+    const respClient = await db.insert(Clients).values({
       ...body,
     });
     if (!respClient.lastInsertRowid) throw new Error("Error al insertar");

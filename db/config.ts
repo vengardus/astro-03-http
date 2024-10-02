@@ -12,6 +12,6 @@ const Clients = defineTable({
 // https://astro.build/db/config
 export default defineDb({
   tables: {
-    clients: Clients
+    Clients: Clients
   }
 });

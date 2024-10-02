@@ -1,10 +1,10 @@
-import { clients, db } from 'astro:db';
+import { Clients, db } from 'astro:db';
 
 // https://astro.build/db/seed
 export default async function seed() {
 	// TODO
 	
-	await db.insert(clients).values([
+	await db.insert(Clients).values([
 		{ name: 'John Doe', age: 30, isActive: true },
 		{ name: 'Jane Doe', age: 28, isActive: true },
 		{ name: 'Joe Doe', age: 35, isActive: false },
