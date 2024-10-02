@@ -11,14 +11,14 @@ export const GET: APIRoute = async ({ request }) => {
   try {
     // valida si vienen parametros
     const url = new URL(request.url);
-    const isParamas = url.searchParams.size ? true : false;
+    const isParams = url.searchParams.size ? true : false;
     const slug = url.searchParams.get("slug");
-    if (isParamas && !slug) {
+    if (isParams && !slug) {
       resp.errorCode = 404;
       throw new Error("Parámetro no recibido");
     }
 
-    switch (isParamas) {
+    switch (isParams) {
       case false: // getAll
         const posts: CollectionEntry<"blog">[] = await getCollection("blog");
         const data = posts.map((post) => post.data);

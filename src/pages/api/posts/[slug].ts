@@ -21,7 +21,10 @@ export const GET: APIRoute = async ({ params }) => {
       throw new Error("Slug no encontrado");
     }
     resp.success = true;
-    resp.data = post;
+    resp.data = {
+      post,
+      code: 'Gardus'
+    }
   } catch (error) {
     resp.message = getActionError(error);
   }
