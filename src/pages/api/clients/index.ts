@@ -29,7 +29,7 @@ const resp = initResponseAction();
 
 try {
     const { id, ...body } = await request.json();
-    if (!body || !body.name || !body.age || !body.isActive)
+    if (!body || !body.name || !body.age || body.isActive === undefined) 
       throw new Error("Error en datos");
 
     const respClient = await db.insert(Clients).values({
