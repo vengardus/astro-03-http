@@ -152,3 +152,7 @@ hr {
 	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
 }
+
+.btn-like {
+	@apply py-1 px-3 rounded-lg font-bold bg-green-600 text-gray-50 mb-2;
+}

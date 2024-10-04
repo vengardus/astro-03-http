@@ -11,7 +11,7 @@ export const LikeButton = ({ postId }: Props) => {
 
   useEffect(() => {
     const getPost = async () => {
-      const res = await fetch(`/api/likes/${postId}`)
+      const res = await fetch(`/api/posts/likes/${postId}`)
       const data = await res.json()
       setData(data)
       setIsLoading(false)
@@ -22,9 +22,9 @@ export const LikeButton = ({ postId }: Props) => {
 
   return (
     isLoading
-      ? <button>Loading...</button>
+      ? <button className='btn-like'>Loading...</button>
       : !data?.success
       ? <div>Error al buscar Post</div>
-      : <button>Likes {data?.data.likes}</button>
+      : <button className='btn-like'>Likes {data?.data.likes}</button>
   )
 }
