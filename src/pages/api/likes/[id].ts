@@ -6,13 +6,11 @@ import { db, eq, Posts } from "astro:db";
 export const prerender = false;
 
 export const GET: APIRoute = async ({ params }) => {
-  const { id } = params;
+  const { id: likeId } = params;
   const resp = initResponseAction();
 
   try {
-    if (!id) throw new Error("Parámetro no recibido");
-    const likeId = +id;
-    if (isNaN(likeId)) throw new Error("Parámetro incorrecto");
+    if (!likeId) throw new Error("Parámetro no recibido");
 
     const like = await db
       .select()
@@ -23,10 +21,9 @@ export const GET: APIRoute = async ({ params }) => {
 
     resp.success = true;
     resp.data = like[0];
-
   } catch (error) {
     resp.message = getActionError(error);
-    resp.errorCode = resp.errorCode ?? 404; 
+    resp.errorCode = resp.errorCode ?? 404;
   }
 
   return new Response(JSON.stringify(resp), {
@@ -37,22 +34,18 @@ export const GET: APIRoute = async ({ params }) => {
   });
 };
 
-
 export const PATCH: APIRoute = async ({ params, request }) => {
-  const { id } = params;
-  const resp = initResponseAction();    
+  const { id: likeId } = params;
+  const resp = initResponseAction();
 
   try {
-    if (!id) throw new Error("Parámetro no recibido");
-    const likeId = +id;
-    if (isNaN(likeId)) throw new Error("Parámetro incorrecto");
+    if (!likeId) throw new Error("Parámetro no recibido");
 
     const body = await request.json();
-    if (!body || !body.likes)
-      throw new Error("Error en datos");
+    if (!body || !body.likes) throw new Error("Error en datos");
 
     const { likes } = body;
-    if ( typeof likes !== "number" ) throw new Error("Error en datos");
+    if (typeof likes !== "number") throw new Error("Error en datos");
 
     const post = await db
       .select()
@@ -60,16 +53,16 @@ export const PATCH: APIRoute = async ({ params, request }) => {
       .where(eq(Posts.id, likeId))
       .limit(1);
 
-    console.log(post, post.length)
+    console.log(post, post.length);
 
     if (!post.length) {
-        const newPost = { 
-            id: likeId, 
-            likes: 0, 
-            title: "Post creado por API" 
-        }
-        await db.insert(Posts).values(newPost)
-        post.push(newPost)
+      const newPost = {
+        id: likeId,
+        likes: 0,
+        title: "Post creado por API",
+      };
+      await db.insert(Posts).values(newPost);
+      post.push(newPost);
     }
 
     const updatedLike = await db
@@ -91,4 +84,4 @@ export const PATCH: APIRoute = async ({ params, request }) => {
       "Content-Type": "application/json",
     },
   });
-}
+};

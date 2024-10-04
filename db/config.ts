@@ -11,7 +11,7 @@ const Clients = defineTable({
 
 const Posts = defineTable({
   columns: {
-    id: column.number({ primaryKey: true }),
+    id: column.text({ primaryKey: true }),
     title: column.text(),
     likes: column.number(),
   }
