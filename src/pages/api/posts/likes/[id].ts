@@ -42,6 +42,7 @@ export const PATCH: APIRoute = async ({ params, request }) => {
     if (!likeId) throw new Error("Parámetro no recibido");
 
     const body = await request.json();
+    console.log(body)
     if (!body || !body.likes) throw new Error("Error en datos");
 
     const { likes } = body;
