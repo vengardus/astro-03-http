@@ -1,7 +1,8 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
-import { LikeButton } from '@/components/likes/react/LikeButton';
+//import { LikeButton } from '@/components/likes/react/LikeButton';
+import { LikeButtonActions } from '@/components/likes/react/LikeButtonActions';
 
 export async function getStaticPaths() {
 	const posts: CollectionEntry<'blog'>[] = await getCollection('blog');
@@ -16,6 +17,7 @@ const { Content } = await post.render();
 ---
 
 <BlogPost {...post.data}>
-	<LikeButton postId={post.id} client:only="react"/>
+	<!-- <LikeButton postId={post.id} client:only="react"/> -->
+	<LikeButtonActions postId={post.id} client:only="react"/>
 	<Content />
 </BlogPost>

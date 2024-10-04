@@ -17,10 +17,10 @@ export const GET: APIRoute = async ({ params }) => {
       .from(Posts)
       .where(eq(Posts.id, likeId))
       .limit(1);
-    if (!like.length) throw new Error("Post no encontrado");
 
     resp.success = true;
-    resp.data = like[0];
+    resp.data = (like.length)? like[0]: 0;
+
   } catch (error) {
     resp.message = getActionError(error);
     resp.errorCode = resp.errorCode ?? 404;
