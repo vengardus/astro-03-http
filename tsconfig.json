@@ -21,6 +21,9 @@
       ],
       "@/images/*": [
         "src/assets/images/*"
+      ],
+      "@/actions/*": [
+        "src/actions/*"
       ]
     },
     "jsx": "react-jsx",

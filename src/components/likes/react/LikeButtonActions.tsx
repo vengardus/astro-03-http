@@ -15,7 +15,7 @@ export const LikeButtonActions = ({ postId }: Props) => {
     const getPost = async () => {
       // const res = await fetch(`/api/posts/likes/${postId}`)
       // const data: ResponseAction = await res.json()
-      const res = await actions.getPostLikes(postId)
+      const res = await actions.getPost(postId)
       const data: ResponseAction = res.data!
       console.log(data)
       setCounterLike(data.success ? data.data.likes : -1)
@@ -47,7 +47,7 @@ export const LikeButtonActions = ({ postId }: Props) => {
     const data: ResponseAction = await res.json()
     console.log(res, likes)
 
-    //setCounterClicks(data.success ? 0 : -1)
+    setCounterClicks(0)
   }
 
   return (

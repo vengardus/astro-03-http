@@ -154,5 +154,5 @@ hr {
 }
 
 .btn-like {
-	@apply py-1 px-3 rounded-lg font-bold bg-green-600 text-gray-50 mb-2;
+	@apply py-2 px-4 rounded-lg font-bold text-xl bg-purple-700 text-gray-100 mb-3;
 }

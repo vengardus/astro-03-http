@@ -1,3 +1,4 @@
+import { get as getPost } from "@/actions/posts/get.action";
 import { getActionError } from "@/utils/get-action-error";
 import { initResponseAction } from "@/utils/init-response";
 import type { APIRoute } from "astro";
@@ -6,20 +7,17 @@ import { db, eq, Posts } from "astro:db";
 export const prerender = false;
 
 export const GET: APIRoute = async ({ params }) => {
-  const { id: likeId } = params;
+  const { id: postId } = params;
   const resp = initResponseAction();
 
   try {
-    if (!likeId) throw new Error("Parámetro no recibido");
+    if (!postId) throw new Error("Parámetro no recibido");
 
-    const like = await db
-      .select()
-      .from(Posts)
-      .where(eq(Posts.id, likeId))
-      .limit(1);
+    const respPost = await getPost(postId);
+    if (!respPost.success) throw new Error(respPost.message);
 
     resp.success = true;
-    resp.data = (like.length)? like[0]: 0;
+    resp.data = respPost.data;
 
   } catch (error) {
     resp.message = getActionError(error);
@@ -35,11 +33,11 @@ export const GET: APIRoute = async ({ params }) => {
 };
 
 export const PATCH: APIRoute = async ({ params, request }) => {
-  const { id: likeId } = params;
+  const { id: postId } = params;
   const resp = initResponseAction();
 
   try {
-    if (!likeId) throw new Error("Parámetro no recibido");
+    if (!postId) throw new Error("Parámetro no recibido");
 
     const body = await request.json();
     console.log(body)
@@ -51,14 +49,14 @@ export const PATCH: APIRoute = async ({ params, request }) => {
     const post = await db
       .select()
       .from(Posts)
-      .where(eq(Posts.id, likeId))
+      .where(eq(Posts.id, postId))
       .limit(1);
 
     console.log(post, post.length);
 
     if (!post.length) {
       const newPost = {
-        id: likeId,
+        id: postId,
         likes: 0,
         title: "Post creado por API",
       };
@@ -69,7 +67,7 @@ export const PATCH: APIRoute = async ({ params, request }) => {
     const updatedLike = await db
       .update(Posts)
       .set({ likes: post.at(0)!.likes + likes })
-      .where(eq(Posts.id, likeId))
+      .where(eq(Posts.id, postId))
       .returning();
     if (!updatedLike) throw new Error("Error al actualizar");
 
