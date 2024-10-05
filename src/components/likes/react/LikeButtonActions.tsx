@@ -7,17 +7,15 @@ interface Props {
 }
 
 export const LikeButtonActions = ({ postId }: Props) => {
+  // TODO: pendiente hacer el upodate de likes en bloque por click realizados (usar paquete debounce)
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
   const [counterLike, setCounterLike] = React.useState<number>(0)
   const [counterClicks, setCounterClicks] = React.useState<number>(0)
 
   useEffect(() => {
     const getPost = async () => {
-      // const res = await fetch(`/api/posts/likes/${postId}`)
-      // const data: ResponseAction = await res.json()
-      const res = await actions.getPost(postId)
+      const res = await actions.getPost({ id: postId })
       const data: ResponseAction = res.data!
-      console.log(data)
       setCounterLike(data.success ? data.data.likes : -1)
       setCounterClicks(0)
       setIsLoading(false)
@@ -36,16 +34,7 @@ export const LikeButtonActions = ({ postId }: Props) => {
   }
 
   const saveLike = async (likes: number) => {
-    const res = await fetch(`/api/posts/likes/${postId}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ likes: likes })
-    })
-
-    const data: ResponseAction = await res.json()
-    console.log(res, likes)
+    const res = await actions.savePostLikes({ postId, likes })
 
     setCounterClicks(0)
   }
