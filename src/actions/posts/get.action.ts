@@ -12,9 +12,10 @@ export const get = async (postId: string): Promise<ResponseAction> => {
         .from(Posts)
         .where(eq(Posts.id, postId))
         .limit(1);
-  
+
+      if (!posts.length) throw new Error("Post no encontrado");
       resp.success = true;
-      resp.data = (posts.length)? posts[0]: 0;
+      resp.data = posts[0];
     } catch (error) {
       resp.message = getActionError(error);
       resp.errorCode = resp.errorCode ?? 404;

@@ -16,7 +16,7 @@ export const LikeButtonActions = ({ postId }: Props) => {
     const getPost = async () => {
       const res = await actions.getPost({ id: postId })
       const data: ResponseAction = res.data!
-      setCounterLike(data.success ? data.data.likes : -1)
+      setCounterLike(data.success ? data.data.likes : 0)
       setCounterClicks(0)
       setIsLoading(false)
     }
@@ -34,6 +34,7 @@ export const LikeButtonActions = ({ postId }: Props) => {
   }
 
   const saveLike = async (likes: number) => {
+    console.log('saveLike', likes)
     const res = await actions.savePostLikes({ postId, likes })
 
     setCounterClicks(0)

@@ -3,7 +3,6 @@ import { saveLikes as savePostLikes } from "@/actions/posts/save-likes.action";
 import { getActionError } from "@/utils/get-action-error";
 import { initResponseAction } from "@/utils/init-response";
 import type { APIRoute } from "astro";
-import { db, eq, Posts } from "astro:db";
 
 export const prerender = false;
 
@@ -57,7 +56,7 @@ export const PATCH: APIRoute = async ({ params, request }) => {
     resp.message = getActionError(error);
     resp.errorCode = resp.errorCode ?? 404;
   }
-  
+
   return new Response(JSON.stringify(resp), {
     status: resp.success ? 200 : resp.errorCode,
     headers: {

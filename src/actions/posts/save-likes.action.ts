@@ -3,7 +3,10 @@ import { getActionError } from "@/utils/get-action-error";
 import { initResponseAction } from "@/utils/init-response";
 import { db, eq, Posts } from "astro:db";
 
-export const saveLikes = async (postId: string, likes: number): Promise<ResponseAction> => {
+export const saveLikes = async (
+  postId: string,
+  likes: number
+): Promise<ResponseAction> => {
   const resp = initResponseAction();
 
   try {
